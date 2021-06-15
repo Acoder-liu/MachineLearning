@@ -36,7 +36,7 @@ def add_noise(train, test):
     return trainNoisy, testNoisy
 
 
-def remove_noisy_model(x_train_noisy, x_test_noisy):
+def buildModel(train_noisy, test_noisy):
     """去燥"""
     input_img = Input(shape=(28, 28, 1,))  # N * 28 * 28 * 1
     # 实现 encoder 部分，由两个 3 × 3 × 32 的卷积和两个 2 × 2 的最大池化组 成。
@@ -52,22 +52,22 @@ def remove_noisy_model(x_train_noisy, x_test_noisy):
     x = UpSampling2D((2, 2))(x)  # 28 * 28 * 32
     decoded = Conv2D(1, (3, 3), padding='same', activation='sigmoid')(x)  # 28 * 28 *
 
-    autoencoder = Model(input_img, decoded)
-    autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+    autoEncoder = Model(input_img, decoded)
+    autoEncoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-    autoencoder.fit(x_train_noisy, x_train,
+    autoEncoder.fit(train_noisy, train,
                     epochs=90,
                     batch_size=128,
                     shuffle=True,
-                    validation_data=(x_test_noisy, x_test))
+                    validation_data=(test_noisy, test))
 
-    autoencoder.save('autoencoder.h5')
+    autoEncoder.save('autoEncoder.h5')
 
 
-def remove_noisy(x_test_noisy):
-    autoencoder = load_model('autoencoder.h5')
-    decoded_imgs = autoencoder.predict(x_test_noisy)
-    return decoded_imgs
+def remove_noisy(test_noisy):
+    autoEncoder = load_model('autoEncoder.h5')
+    decodedImages = autoEncoder.predict(test_noisy)
+    return decodedImages
 
 
 def plot1(x_data):
@@ -83,29 +83,29 @@ def plot1(x_data):
     plt.show()
 
 
-def plot2(x_test_noisy, decoded_imgs):
+def plot2(test_noisy, image2):
     """画图"""
     n = 10
     plt.figure(figsize=(20, 4))
     for i in range(n):
         # display original
         ax = plt.subplot(2, n, i + 1)
-        plt.imshow(x_test_noisy[i].reshape(28, 28))
+        plt.imshow(test_noisy[i].reshape(28, 28))
         plt.gray()
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
 
         # display reconstruction
         ax = plt.subplot(2, n, i + 1 + n)
-        plt.imshow(decoded_imgs[i].reshape(28, 28))
+        plt.imshow(image2[i].reshape(28, 28))
         plt.gray()
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
     plt.show()
 
 
-x_train, x_test = get_data()
-x_train_noisy, x_test_noisy = add_noise(x_train, x_test)
-remove_noisy_model(x_train_noisy, x_test_noisy)
-decoded_imgs = remove_noisy(x_test_noisy)
-plot2(x_test_noisy, decoded_imgs)
+train, test = get_data()
+trainNoisy, testNoisy = add_noise(train, test)
+buildModel(trainNoisy, testNoisy)
+decoded_images = remove_noisy(testNoisy)
+plot2(testNoisy, decoded_images)
