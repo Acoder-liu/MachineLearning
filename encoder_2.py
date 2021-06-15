@@ -13,27 +13,27 @@ import time  # 引入time模块
 
 
 def get_data():
-    (x_train, _), (x_test, _) = mnist.load_data()
-    x_train = x_train.astype('float32') / 255.
-    x_test = x_test.astype('float32') / 255.
-    x_train = np.reshape(x_train, (len(x_train), 28, 28, 1))
-    x_test = np.reshape(x_test, (len(x_test), 28, 28, 1))
-    print('x_train.shape:', x_train.shape)
-    print('x_test.shape:', x_test.shape)
-    return x_train, x_test
+    (trainSet, _), (testSet, _) = mnist.load_data()
+    trainSet = trainSet.astype('float32') / 255.
+    testSet = testSet.astype('float32') / 255.
+    trainSet = np.reshape(trainSet, (len(trainSet), 28, 28, 1))
+    testSet = np.reshape(testSet, (len(testSet), 28, 28, 1))
+    print('x_train.shape:', trainSet.shape)
+    print('x_test.shape:', testSet.shape)
+    return trainSet, testSet
 
 
-def add_noise(x_train, x_test):
+def add_noise(train, test):
     """随机添加噪音"""
     ticks = [5, 6, 2, 34, 12, 34, 66, 74]
     np.random.seed(655)
     noise_factor = 0.5
-    x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
-    x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
+    trainNoisy = train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=train.shape)
+    testNoisy = test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=test.shape)
     # 值仍在0-1之间
-    x_train_noisy = np.clip(x_train_noisy, 0., 1.)
-    x_test_noisy = np.clip(x_test_noisy, 0., 1.)
-    return x_train_noisy, x_test_noisy
+    trainNoisy = np.clip(trainNoisy, 0., 1.)
+    testNoisy = np.clip(testNoisy, 0., 1.)
+    return trainNoisy, testNoisy
 
 
 def remove_noisy_model(x_train_noisy, x_test_noisy):
@@ -56,7 +56,7 @@ def remove_noisy_model(x_train_noisy, x_test_noisy):
     autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
     autoencoder.fit(x_train_noisy, x_train,
-                    epochs=100,
+                    epochs=90,
                     batch_size=128,
                     shuffle=True,
                     validation_data=(x_test_noisy, x_test))
