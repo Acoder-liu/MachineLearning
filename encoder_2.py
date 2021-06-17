@@ -1,7 +1,7 @@
 # python-38
 # ------------------------------------------------
 # 作者     :刘想
-# 时间     :2021/6/13 16:30
+# 时间     :2021/6/5 16:30
 # ------------------------------------------------
 # -*- coding:utf-8 -*-
 import numpy as np
@@ -41,22 +41,22 @@ def buildModel(train_noisy, test_noisy):
     input_img = Input(shape=(28, 28, 1,))  # N * 28 * 28 * 1
     # 实现 encoder 部分，由两个 3 × 3 × 32 的卷积和两个 2 × 2 的最大池化组 成。
     x = Conv2D(32, (3, 3), padding='same', activation='relu')(input_img)  # 28 * 28 * 32
-    x = MaxPooling2D((2, 2), padding='same')(x)  # 14 * 14 * 32
-    x = Conv2D(32, (3, 3), padding='same', activation='relu')(x)  # 14 * 14 * 32
-    encoded = MaxPooling2D((2, 2), padding='same')(x)  # 7 * 7 * 32
+    encoded = MaxPooling2D((2, 2), padding='same')(x)  # 14 * 14 * 32
+    # x = Conv2D(32, (3, 3), padding='same', activation='relu')(x)  # 14 * 14 * 32
+    # encoded = MaxPooling2D((2, 2), padding='same')(x)  # 7 * 7 * 32
     # 实现 decoder 部分，由两个 3 × 3 × 32 的卷积和两个 2 × 2 的上采样组成。
     # 7 * 7 * 32
     x = Conv2D(32, (3, 3), padding='same', activation='relu')(encoded)  # 7 * 7 * 32
     x = UpSampling2D((2, 2))(x)  # 14 * 14 * 32
-    x = Conv2D(32, (3, 3), padding='same', activation='relu')(x)  # 14 * 14 * 32
-    x = UpSampling2D((2, 2))(x)  # 28 * 28 * 32
+    # x = Conv2D(32, (3, 3), padding='same', activation='relu')(x)  # 14 * 14 * 32
+    # x = UpSampling2D((2, 2))(x)  # 28 * 28 * 32
     decoded = Conv2D(1, (3, 3), padding='same', activation='sigmoid')(x)  # 28 * 28 *
 
     autoEncoder = Model(input_img, decoded)
     autoEncoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
     autoEncoder.fit(train_noisy, train,
-                    epochs=90,
+                    epochs=200,
                     batch_size=128,
                     shuffle=True,
                     validation_data=(test_noisy, test))
@@ -102,6 +102,7 @@ def plot2(test_noisy, image2):
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
     plt.show()
+    # plt.savefig('result.jpg')
 
 
 train, test = get_data()

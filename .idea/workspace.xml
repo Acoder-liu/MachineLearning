@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="eb5f26eb-0fc3-4e26-8f09-63b34add6bc1" name="默认的" comment="默认的">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/autoencoder.h5" beforeDir="false" afterPath="$PROJECT_DIR$/autoencoder.h5" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/encoder_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/encoder_2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,11 +59,11 @@
       <recent name="C:\Users\86156\PycharmProjects\pythonProject\scipy\test" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\86156\PycharmProjects\pythonProject" />
       <recent name="C:\Users\86156\PycharmProjects\pythonProject\scipy\test" />
       <recent name="C:\Users\86156\PycharmProjects\pythonProject\h" />
       <recent name="C:\Users\86156\PycharmProjects\pythonProject\homework" />
       <recent name="C:\Users\86156\PycharmProjects\pythonProject\homework\bigHomework" />
-      <recent name="C:\Users\86156\PycharmProjects\pythonProject\self" />
     </key>
   </component>
   <component name="RunManager" selected="Python.encoder_2">
@@ -253,7 +254,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623762462820</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="默认的">
+      <created>1623763094174</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1623763094174</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -265,6 +273,18 @@
         <option value="Default.Subject" />
       </list>
     </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="默认的" />
